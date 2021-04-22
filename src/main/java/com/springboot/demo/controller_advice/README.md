@@ -1,0 +1,2 @@
+# ControllerAdvice 样例
+controller抛出异常时，使用ControllerAdvice注释的类会根据抛出的异常，检查是否需要处理，并对需要处理的异常做相应处理
