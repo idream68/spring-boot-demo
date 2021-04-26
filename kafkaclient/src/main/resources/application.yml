@@ -1,0 +1,25 @@
+spring:
+  kafka:
+    consumer:
+      group-id: consumer-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      batch-size: 1000
+      buffer-memory: 524288
+      retries: 0
+      acks: -1
+    listener:
+      concurrency: 1
+    bootstrap-servers: ip1:port1,ip2:port2
+
+topic: test
+message: send-message
+
+logging:
+  level:
+    "org.springframework.kafka": info
