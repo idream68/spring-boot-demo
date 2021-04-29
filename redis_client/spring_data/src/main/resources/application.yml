@@ -1,0 +1,19 @@
+spring:
+  redis:
+    password: xxx
+    host: xxx
+    port: xxx
+    jedis:
+      pool:
+        max-wait: 15000
+        min-idle: 0
+        max-idle: 8
+        max-active: 8
+    timeout: 2000
+    # 默认使用
+    database: 0
+    # 自己写的，多数据源
+    databases:
+      primary: 0
+      second: 2
+
