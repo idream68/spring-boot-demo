@@ -6,5 +6,6 @@
 5. [kafkaclient: kafka 客户端使用例子](./kafkaclient)
 6. [redis_client: redis 使用例子](./redis_client)
 7. [bean_name_generator: 自定义bean名称生成器](./bean_name_generator)
+8. [controller_injection: 验证使用@RestController的类也可以注入到其他类中](./controller_injection)
 # License 
 [Apache License](https://www.apache.org/licenses/LICENSE-2.0).
