@@ -5,5 +5,6 @@
 4. [multi_datasource: mysql 多数据源例子](./multi_datasource)
 5. [kafkaclient: kafka 客户端使用例子](./kafkaclient)
 6. [redis_client: redis 使用例子](./redis_client)
+7. [bean_name_generator: 自定义bean名称生成器](./bean_name_generator)
 # License 
 [Apache License](https://www.apache.org/licenses/LICENSE-2.0).
