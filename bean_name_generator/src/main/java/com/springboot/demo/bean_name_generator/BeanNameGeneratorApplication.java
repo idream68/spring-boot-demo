@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationBeanNameGenerator;
 import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan(nameGenerator = BeanNameGeneratorApplication.SpringBeanNameGenerator.class)
+@ComponentScan(nameGenerator = BeanNameGeneratorApplication.SpringBeanNameGenerator.class, basePackages = "com.springboot.demo.bean_name_generator")
 @SpringBootApplication
 public class BeanNameGeneratorApplication {
 
