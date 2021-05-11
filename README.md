@@ -8,5 +8,4 @@
 7. [bean_name_generator: 自定义bean名称生成器](./bean_name_generator)
 8. [controller_injection: 验证使用@RestController的类也可以注入到其他类中](./controller_injection)
 9. [mapper_scan_mapper: Mapper和MapperScan用法](./mapper_scan_mapper)
-# License 
-[Apache License](https://www.apache.org/licenses/LICENSE-2.0).
+
