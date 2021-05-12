@@ -1,0 +1,23 @@
+# 连接mysql数据库
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: user
+    password: password
+    url: jdbc:mysql://host:port/db
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 30
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: HikariCP
+      max-lifetime: 900000
+      connection-timeout: 10000
+      connection-test-query: SELECT 1
+
+#MyBatis使用pageHelper分页
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
