@@ -3,9 +3,7 @@ package com.springboot.demo.shiro_base.controller;
 import com.springboot.demo.shiro_base.entry.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -39,7 +37,13 @@ public class LoginController {
         } catch (UnknownAccountException e) {
             log.error("用户名不存在！", e);
             return "用户名不存在！";
-        } catch (AuthenticationException e) {
+        } catch (LockedAccountException e) {
+            log.error("账号被锁定");
+            return "账号被锁定";
+        }catch (DisabledAccountException e) {
+            log.error("账号禁用");
+            return "账号禁用错误!";
+        }  catch (AuthenticationException e) {
             log.error("账号或密码错误！", e);
             return "账号或密码错误！";
         } catch (AuthorizationException e) {

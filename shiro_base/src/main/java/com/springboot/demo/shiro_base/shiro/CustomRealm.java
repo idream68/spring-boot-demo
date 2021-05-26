@@ -4,14 +4,12 @@ import com.springboot.demo.shiro_base.entry.Permissions;
 import com.springboot.demo.shiro_base.entry.Role;
 import com.springboot.demo.shiro_base.entry.User;
 import com.springboot.demo.shiro_base.service.LoginService;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.support.DisabledSessionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
@@ -67,8 +65,13 @@ public class CustomRealm extends AuthorizingRealm {
         User user = loginService.getUserByName(name);
         if (user == null) {
             //这里返回后会报出对应异常
-            return null;
+            throw new UnknownAccountException();
         } else {
+            if (user.getStatus() == User.Status.DISABLED) {
+                throw new DisabledAccountException();
+            } else if (user.getStatus() == User.Status.LOCKED) {
+                throw new LockedAccountException();
+            }
             //这里验证authenticationToken和simpleAuthenticationInfo的信息
             SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(name, user.getPassword().toString(), getName());
             return simpleAuthenticationInfo;

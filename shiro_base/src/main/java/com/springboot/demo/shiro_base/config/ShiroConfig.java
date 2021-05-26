@@ -43,7 +43,7 @@ public class ShiroConfig {
         return securityManager;
     }
 
-    //Filter工厂，设置对应的过滤条件和跳转条件
+    //Filter工厂，设置对应的过滤条件和跳转条件，用于拦截需要安全处理的请求
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
@@ -64,6 +64,11 @@ public class ShiroConfig {
     }
 
 
+    /**
+     * 匹配所有加了 shiro 认证注解的方法
+     * @param securityManager
+     * @return
+     */
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
