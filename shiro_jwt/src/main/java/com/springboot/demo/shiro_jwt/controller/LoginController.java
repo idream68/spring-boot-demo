@@ -69,8 +69,15 @@ public class LoginController {
     @GetMapping("/logout")
     public Object logout() {
         BaseResponse<Object> ret = new BaseResponse<Object>();
-        ret.setErrCode(0);
-        ret.setMsg("退出登录");
+        try {
+            Subject subject = SecurityUtils.getSubject();
+            subject.logout();
+            ret.setErrCode(0);
+            ret.setMsg("退出登录");
+        } catch (Exception e) {
+            ret.setErrCode(500);
+            ret.setMsg("退出失败");
+        }
         return ret;
     }
 }
