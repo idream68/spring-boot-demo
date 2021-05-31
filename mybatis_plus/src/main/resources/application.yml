@@ -1,0 +1,8 @@
+
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://host:port/db1?useUnicode=true&characterEncoding=utf-8&serverTimeZone=GMT
+    username: user
+    password: password
