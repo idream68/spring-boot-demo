@@ -1,8 +1,8 @@
 package com.springboot.demo.shiro_redis.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
  * @Author: zjhan
@@ -10,12 +10,10 @@ import lombok.NoArgsConstructor;
  * @Description:
  **/
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Resources {
-    private int id;
+public class Resources implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private Integer id;
     private String name;
-    private String url;
-    private int type;
+    private String resUrl;
     private int parentId;
 }

@@ -24,10 +24,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     public PageInfo<User> getPage(int pageNumber, int pageSize) {
-        Page<User> page = PageHelper.startPage(pageNumber, pageSize);
-        List<User> users = list();
-        PageInfo<User> pageInfo = new PageInfo<>(users);
-        return pageInfo;
+        try {
+            Page<User> page = PageHelper.startPage(pageNumber, pageSize);
+            List<User> users = list();
+            PageInfo<User> pageInfo = new PageInfo<>(users);
+            return pageInfo;
+        } finally {
+            PageHelper.clearPage();
+        }
     }
 
 }

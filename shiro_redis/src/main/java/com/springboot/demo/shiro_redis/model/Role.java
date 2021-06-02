@@ -1,8 +1,8 @@
 package com.springboot.demo.shiro_redis.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
  * @Author: zjhan
@@ -10,10 +10,7 @@ import lombok.NoArgsConstructor;
  * @Description:
  **/
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Role {
-    private int id;
-    private String Name;
-    private String description;
+public class Role implements Serializable {
+    private Integer id;
+    private String name;
 }

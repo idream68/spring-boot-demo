@@ -1,5 +1,6 @@
 package com.springboot.demo.shiro_redis.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.springboot.demo.shiro_redis.model.Role;
 
 import java.util.List;
@@ -9,6 +10,5 @@ import java.util.List;
  * @Date: 2021/5/28 14:02
  * @Description:
  **/
-public interface RoleMapper {
-    List<Role> queryRoleListWithSelected(Integer id);
+public interface RoleMapper extends BaseMapper<Role> {
 }

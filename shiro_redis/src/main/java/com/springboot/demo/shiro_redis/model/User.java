@@ -1,8 +1,8 @@
 package com.springboot.demo.shiro_redis.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
  * @Author: zjhan
@@ -10,32 +10,25 @@ import lombok.NoArgsConstructor;
  * @Description:
  **/
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class User {
-    public enum Status {
-        ENABLE(0, "正常使用中..."),
-        DISABLE(1, "禁用"),
-        LOCKED(2, "被锁");
+public class User implements Serializable {
+    private Integer id;
+    private String username;
+    private String password;
+    private int status;
 
-        int code;
-        String desc;
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
-        Status(int code, String desc) {
-            this.code = code;
-            this.desc = desc;
-        }
+    public void setUserStatus(UserStatus userStatus) {
+        this.status = userStatus.code;
+    }
 
-        @Override
-        public String toString() {
-            return "Status{" +
-                    "code=" + code +
-                    ", desc='" + desc + '\'' +
-                    '}';
+    public UserStatus getUserStatus() {
+        switch (this.status) {
+            case 0: return UserStatus.ENABLE;
+            case 2: return UserStatus.LOCKED;
+            default: return UserStatus.DISABLE;
         }
     }
-    private int id;
-    private String userName;
-    private String password;
-    private Status status;
 }

@@ -14,7 +14,7 @@ public class PasswordHelper {
     private int hashIterations = 16;
 
     public void encryptPassword(User user) {
-        SimpleHash password = new SimpleHash(hashAlgorithmName, user.getPassword(), ByteSource.Util.bytes(user.getUserName()), hashIterations);
+        SimpleHash password = new SimpleHash(hashAlgorithmName, user.getPassword(), ByteSource.Util.bytes(user.getUsername()), hashIterations);
         user.setPassword(password.toString());
     }
 

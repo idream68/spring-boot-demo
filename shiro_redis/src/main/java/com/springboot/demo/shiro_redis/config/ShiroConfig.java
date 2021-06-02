@@ -2,6 +2,7 @@ package com.springboot.demo.shiro_redis.config;
 
 import com.springboot.demo.shiro_redis.model.Resources;
 import com.springboot.demo.shiro_redis.service.ResourcesService;
+import com.springboot.demo.shiro_redis.shiro.MyShiroRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -67,7 +68,7 @@ public class ShiroConfig {
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
         shiroFilterFactoryBean.setLoginUrl("/login");
         // 登录成功后要跳转的链接
-        shiroFilterFactoryBean.setSuccessUrl("/usersPage");
+        shiroFilterFactoryBean.setSuccessUrl("/users");
         //未授权界面;
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
         //拦截器.
@@ -82,12 +83,12 @@ public class ShiroConfig {
         //<!-- 过滤链定义，从上向下顺序执行，一般将 /**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了;
         //<!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
         //自定义加载权限资源关系
-        List<Resources> resourcesList = resourcesService.queryAll();
+        List<Resources> resourcesList = resourcesService.list();
         for(Resources resources:resourcesList){
 
-            if (StringUtils.hasText(resources.getUrl())) {
-                String permission = "perms[" + resources.getUrl()+ "]";
-                filterChainDefinitionMap.put(resources.getUrl(),permission);
+            if (StringUtils.hasText(resources.getResUrl())) {
+                String permission = "perms[" + resources.getResUrl()+ "]";
+                filterChainDefinitionMap.put(resources.getResUrl(),permission);
             }
         }
         filterChainDefinitionMap.put("/**", "authc");
@@ -195,6 +196,5 @@ public class ShiroConfig {
         sessionManager.setSessionDAO(redisSessionDAO());
         return sessionManager;
     }
-
 
 }

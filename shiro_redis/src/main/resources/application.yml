@@ -1,0 +1,12 @@
+
+spring:
+  redis:
+    host: host:port
+    timeout: 6000
+    password:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://host:port/db?useUnicode=true&characterEncoding=utf-8&serverTimeZone=GMT
+    username: user
+    password: password
+

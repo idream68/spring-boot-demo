@@ -1,12 +1,14 @@
-package com.springboot.demo.shiro_redis.service;
+package com.springboot.demo.shiro_redis.shiro;
 
 import com.github.pagehelper.util.StringUtil;
 import com.springboot.demo.shiro_redis.model.Resources;
+import com.springboot.demo.shiro_redis.service.impl.ResourceServiceImpl;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.mgt.DefaultFilterChainManager;
 import org.apache.shiro.web.filter.mgt.PathMatchingFilterChainResolver;
 import org.apache.shiro.web.servlet.AbstractShiroFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,11 +19,12 @@ import java.util.Map;
  * @Date: 2021/5/28 14:07
  * @Description:
  **/
+@Service
 public class ShiroService {
     @Autowired
     private ShiroFilterFactoryBean shiroFilterFactoryBean;
     @Autowired
-    private ResourcesService resourcesService;
+    private ResourceServiceImpl resourcesService;
 
     /**
      * 初始化权限
@@ -34,12 +37,12 @@ public class ShiroService {
         filterChainDefinitionMap.put("/js/**","anon");
         filterChainDefinitionMap.put("/img/**","anon");
         filterChainDefinitionMap.put("/font-awesome/**","anon");
-        List<Resources> resourcesList = resourcesService.queryAll();
+        List<Resources> resourcesList = resourcesService.list();
         for(Resources resources:resourcesList){
 
-            if (StringUtil.isNotEmpty(resources.getUrl())) {
-                String permission = "perms[" + resources.getUrl()+ "]";
-                filterChainDefinitionMap.put(resources.getUrl(),permission);
+            if (StringUtil.isNotEmpty(resources.getResUrl())) {
+                String permission = "perms[" + resources.getResUrl()+ "]";
+                filterChainDefinitionMap.put(resources.getResUrl(),permission);
             }
         }
         filterChainDefinitionMap.put("/**", "authc");

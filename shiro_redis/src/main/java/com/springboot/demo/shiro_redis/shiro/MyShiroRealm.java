@@ -1,9 +1,11 @@
-package com.springboot.demo.shiro_redis.config;
+package com.springboot.demo.shiro_redis.shiro;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.springboot.demo.shiro_redis.model.Resources;
 import com.springboot.demo.shiro_redis.model.User;
-import com.springboot.demo.shiro_redis.service.ResourcesService;
-import com.springboot.demo.shiro_redis.service.UserService;
+import com.springboot.demo.shiro_redis.model.UserStatus;
+import com.springboot.demo.shiro_redis.service.impl.ResourceServiceImpl;
+import com.springboot.demo.shiro_redis.service.impl.UserServiceImpl;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -28,10 +30,10 @@ import java.util.*;
  **/
 public class MyShiroRealm extends AuthorizingRealm {
     @Resource
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Resource
-    private ResourcesService resourcesService;
+    private ResourceServiceImpl resourcesService;
 
     @Autowired
     private RedisSessionDAO redisSessionDAO;
@@ -40,13 +42,11 @@ public class MyShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         User user= (User) SecurityUtils.getSubject().getPrincipal();//User{id=1, username='admin', password='3ef7164d1f6167cb9f2658c07d3c2f0a', enable=1}
-        Map<String,Object> map = new HashMap<String,Object>();
-        map.put("userid",user.getId());
-        List<Resources> resourcesList = resourcesService.loadUserResources(map);
+        List<Resources> resourcesList = resourcesService.userResources(user.getId());
         // 权限信息对象info,用来存放查出的用户的所有的角色（role）及权限（permission）
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         for(Resources resources: resourcesList){
-            info.addStringPermission(resources.getUrl());
+            info.addStringPermission(resources.getResUrl());
         }
         return info;
     }
@@ -56,11 +56,13 @@ public class MyShiroRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         //获取用户的输入的账号.
         String username = (String)token.getPrincipal();
-        User user = userService.selectByUsername(username);
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", username);
+        User user = userService.getOne(queryWrapper);
         if(user==null) throw new UnknownAccountException();
-        if (User.Status.LOCKED==user.getStatus()) {
+        if (UserStatus.LOCKED.code == user.getStatus()) {
             throw new LockedAccountException(); // 帐号锁定
-        } else if (User.Status.DISABLE == user.getStatus()) {
+        } else if (UserStatus.DISABLE.code == user.getStatus()) {
             throw new DisabledAccountException(); // 禁用账号
         }
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
