@@ -13,7 +13,7 @@
 ### SPRING BOOT MYSQL
 
 #### MYBATIS
-- [mybatis 基础](./mapper_scan_mapper)
+- [mybatis 基础](./mybatis_base)
 - [mybatis 多数据源](./multi_datasource)---[maven版](https://github.com/idream68/multidatasource)
 - [PageHelper示例(mybatis)](./mybatis_pagehelper)
 - ...
@@ -48,11 +48,13 @@
 ### SPRING BOOT SHIRO
 - [shiro-session示例(不使用任何数据库)](./shiro_base)
 - [shiro-jwt示例(不使用任何数据库)](./shiro_jwt)
-- [shiro-redis示例(redis保存token)](./shiro_redis)
+- [shiro-redis-session示例(redis保存session)](./shiro_redis)
+- [shiro-redis-token(使用redis保存token)](./shiro_redis_token)
 - shiro-在线会话管理
 - shiro-并发登录控制
 - shiro-失败次数过多锁定
-- shiro-Ehcache
+- shiro-Ehcache 
+- shiro-自定义加密方法 
 - ...
 
 ### SPRING BOOT & SECURITY

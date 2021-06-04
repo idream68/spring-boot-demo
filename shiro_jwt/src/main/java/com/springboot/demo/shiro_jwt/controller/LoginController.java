@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LoginController {
     @PostMapping(value = "/login")
-    public Object userLogin(@RequestParam(name = "username", required = true) String userName,
-                            @RequestParam(name = "password", required = true) String password, ServletResponse response) {
+    public Object userLogin(@RequestParam(name = "username") String userName,
+                            @RequestParam(name = "password") String password, ServletResponse response) {
 
         // 获取当前用户主体
         Subject subject = SecurityUtils.getSubject();
@@ -40,7 +40,7 @@ public class LoginController {
             msg = "登录成功。";
             loginSuccess = true;
         } catch (UnknownAccountException uae) { // 账号不存在
-            msg = "用户名与密码不匹配，请检查后重新输入！";
+            msg = "用户不存在！";
         } catch (IncorrectCredentialsException ice) { // 账号与密码不匹配
             msg = "用户名与密码不匹配，请检查后重新输入！";
         } catch (LockedAccountException lae) { // 账号已被锁定
@@ -56,13 +56,11 @@ public class LoginController {
             ((HttpServletResponse) response).setHeader(JwtUtils.AUTH_HEADER, jwtToken);
             //
             ret.setErrCode(0);
-            ret.setMsg(msg);
-            return ret;
         } else {
             ret.setErrCode(401);
-            ret.setMsg(msg);
-            return ret;
         }
+        ret.setMsg(msg);
+        return ret;
 
     }
 

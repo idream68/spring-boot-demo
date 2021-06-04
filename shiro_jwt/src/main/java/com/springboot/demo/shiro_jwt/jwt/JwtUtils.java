@@ -63,8 +63,12 @@ public class JwtUtils {
      * 生成签名
      */
     public static String sign(String username, String secret) {
+        return sign(username, secret, EXPIRE_TIME);
+    }
+
+    public static String sign(String username, String secret, long expireTime) {
         try {
-            Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
+            Date date = new Date(System.currentTimeMillis() + expireTime);
             Algorithm algorithm = Algorithm.HMAC256(secret);
             // 附带username，nickname信息
             return JWT.create().withClaim("username", username).withExpiresAt(date).sign(algorithm);
