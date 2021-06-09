@@ -1,12 +1,15 @@
 package com.springboot.demo.shiro_redis_token.config;
 
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
+import org.apache.shiro.mgt.DefaultSubjectDAO;
+import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.mgt.SessionStorageEvaluator;
-import org.crazycake.shiro.RedisCacheManager;
-import org.crazycake.shiro.RedisManager;
+import org.apache.shiro.spring.LifecycleBeanPostProcessor;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.StringUtils;
 
 /**
  * @Author: zjhan
@@ -15,38 +18,25 @@ import org.springframework.util.StringUtils;
  **/
 @Configuration
 public class ShiroConfig {
-    String host;
-
-    String password;
-
-    int timeout;
+    @Autowired
+    TokenCache redisCacheGenerator;
 
     /**
-     * 配置shiro redisManager
-     * 使用的是shiro-redis开源插件
-     * @return
+     * 交由 Spring 来自动地管理 Shiro-Bean 的生命周期
      */
-    public RedisManager redisManager() {
-        RedisManager redisManager = new RedisManager();
-        redisManager.setHost(host);
-        redisManager.setTimeout(timeout);
-        if (StringUtils.hasText(password)){
-            redisManager.setPassword(password);
-        }
-        return redisManager;
+    @Bean
+    public static LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
+        return new LifecycleBeanPostProcessor();
     }
 
     /**
-     * cacheManager 缓存 redis实现
-     * 使用的是shiro-redis开源插件
-     * @return
+     * 为 Spring-Bean 开启对 Shiro 注解的支持
      */
-    public RedisCacheManager cacheManager() {
-        RedisCacheManager redisCacheManager = new RedisCacheManager();
-//        设置key前缀
-        redisCacheManager.setKeyPrefix("cache-demo");
-        redisCacheManager.setRedisManager(redisManager());
-        return redisCacheManager;
+    @Bean
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
+        AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
+        authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
+        return authorizationAttributeSourceAdvisor;
     }
 
     /**
@@ -57,5 +47,18 @@ public class ShiroConfig {
         DefaultSessionStorageEvaluator sessionStorageEvaluator = new DefaultSessionStorageEvaluator();
         sessionStorageEvaluator.setSessionStorageEnabled(false);
         return sessionStorageEvaluator;
+    }
+
+    /**
+     * 配置 SecurityManager
+     */
+    @Bean
+    public SecurityManager securityManager() {
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        // 关闭shiro自带的session
+        DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
+        subjectDAO.setSessionStorageEvaluator(sessionStorageEvaluator());
+        securityManager.setSubjectDAO(subjectDAO);
+        return securityManager;
     }
 }
