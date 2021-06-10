@@ -1,10 +1,5 @@
 package com.springboot.demo.shiro_redis_token.utils.common;
 
-/**
- * 进制转换工具
- * @author dolyw.com
- * @date 2018/8/31 17:23
- */
 public class HexConvertUtil {
 
     /**
@@ -17,13 +12,6 @@ public class HexConvertUtil {
      */
     private static final Integer INTEGER_2 = 2;
 
-    /**
-     * 将二进制转换成16进制
-     * @param bytes
-     * @return java.lang.String
-     * @author dolyw.com
-     * @date 2018/8/31 17:20
-     */
     public static String parseByte2HexStr(byte[] bytes) {
         StringBuffer sb = new StringBuffer();
         for (byte buff : bytes) {
@@ -36,13 +24,6 @@ public class HexConvertUtil {
         return sb.toString();
     }
 
-    /**
-     * 将16进制转换为二进制
-     * @param hexStr
-     * @return byte[]
-     * @author dolyw.com
-     * @date 2018/8/31 17:21
-     */
     public static byte[] parseHexStr2Byte(String hexStr) {
         if (hexStr.length() < INTEGER_1) {
             return null;

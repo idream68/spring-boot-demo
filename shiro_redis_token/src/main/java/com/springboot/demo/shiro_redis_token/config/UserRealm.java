@@ -31,7 +31,6 @@ import java.util.List;
  */
 @Service
 public class UserRealm extends AuthorizingRealm {
-
     @Autowired
     private UserServiceImpl userService;
     @Autowired
@@ -40,7 +39,6 @@ public class UserRealm extends AuthorizingRealm {
     private PermissionServiceImpl permissionService;
     @Autowired
     private TokenCache tokenCache;
-
 
     /**
      * 大坑，必须重写此方法，不然Shiro会报错
@@ -95,9 +93,9 @@ public class UserRealm extends AuthorizingRealm {
             throw new AuthenticationException("该帐号不存在(The account does not exist.)");
         }
         // 开始认证，要AccessToken认证通过，且Redis中存在RefreshToken，且两个Token时间戳一致
-        if (JwtUtil.verify(token) && tokenCache.getRedisManager().get(account.getBytes(StandardCharsets.UTF_8)) != null) {
+        if (JwtUtil.verify(token) && tokenCache.getRedisManager().get((Constant.PREFIX_SHIRO_REFRESH_TOKEN + account).getBytes(StandardCharsets.UTF_8)) != null) {
             // 获取RefreshToken的时间戳
-            String currentTimeMillisRedis = new String(tokenCache.getRedisManager().get(account.getBytes(StandardCharsets.UTF_8)));
+            String currentTimeMillisRedis = new String(tokenCache.getRedisManager().get((Constant.PREFIX_SHIRO_REFRESH_TOKEN + account).getBytes(StandardCharsets.UTF_8)));
             // 获取AccessToken时间戳，与RefreshToken的时间戳对比
             if (JwtUtil.getClaim(token, Constant.CURRENT_TIME_MILLIS).equals(currentTimeMillisRedis)) {
                 return new SimpleAuthenticationInfo(token, token, getName());

@@ -1,10 +1,6 @@
 package com.springboot.demo.shiro_redis_token.entity.common;
 
-/**
- * ResponseBean
- * @author dolyw.com
- * @date 2018/8/30 11:39
- */
+
 public class ResponseBean {
     /**
      * HTTP状态码

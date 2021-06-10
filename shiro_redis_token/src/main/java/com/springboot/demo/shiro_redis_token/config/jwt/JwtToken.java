@@ -2,11 +2,7 @@ package com.springboot.demo.shiro_redis_token.config.jwt;
 
 import org.apache.shiro.authc.AuthenticationToken;
 
-/**
- * JwtToken
- * @author dolyw.com
- * @date 2018/8/30 14:06
- */
+
 public class JwtToken implements AuthenticationToken {
     /**
      * Token

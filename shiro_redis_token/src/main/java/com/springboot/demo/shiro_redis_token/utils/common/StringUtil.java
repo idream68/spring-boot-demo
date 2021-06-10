@@ -1,23 +1,11 @@
 package com.springboot.demo.shiro_redis_token.utils.common;
 
-/**
- * String工具
- * @author dolyw.com
- * @date 2018/9/4 14:48
- */
 public class StringUtil {
     /**
      * 定义下划线
      */
     private static final char UNDERLINE = '_';
 
-    /**
-     * String为空判断(不允许空格)
-     * @param str
-     * @return boolean
-     * @author dolyw.com
-     * @date 2018/9/4 14:49
-     */
     public static boolean isBlank(String str) {
         return str == null || "".equals(str.trim());
     }

@@ -20,7 +20,6 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -29,20 +28,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-/**
- * UserController
- * @author dolyw.com
- * @date 2018/8/29 15:45
- */
+
 @RestController
 @RequestMapping("/user")
-@PropertySource("classpath:config.properties")
 public class UserController {
 
     /**
      * RefreshToken过期时间
      */
-    @Value("${refreshTokenExpireTime}")
+    @Value("${refreshTokenExpireTime:1000}")
     private String refreshTokenExpireTime;
 
     private final UserUtil userUtil;
@@ -232,7 +226,6 @@ public class UserController {
         if (userTemp != null && StringUtil.isNotBlank(userTemp.getPassword())) {
             throw new CustomUnauthorizedException("该帐号已存在(Account exist.)");
         }
-        user.setRegTime(new Date());
         // 密码以帐号+密码的形式进行AES加密
         if (user.getPassword().length() > Constant.PASSWORD_MAX_LEN) {
             throw new CustomException("密码最多8位(Password up to 8 bits.)");
@@ -310,7 +303,10 @@ public class UserController {
     }
 
     @GetMapping("/logout")
-    public ResponseBean logout(@PathVariable("account") String account) {
+    public ResponseBean logout() {
+        String token = SecurityUtils.getSubject().getPrincipal().toString();
+        // 解密获得Account
+        String account = JwtUtil.getClaim(token, Constant.ACCOUNT);
         SecurityUtils.getSubject().logout();
         byte[] key = (Constant.PREFIX_SHIRO_REFRESH_TOKEN + account).getBytes(StandardCharsets.UTF_8);
         if (tokenCache.getRedisManager().get(key) != null) {

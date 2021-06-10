@@ -11,8 +11,6 @@ import com.springboot.demo.shiro_redis_token.utils.common.JsonConvertUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,19 +23,29 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
-/**
- * JWT过滤
- * @author dolyw.com
- * @date 2018/8/30 15:47
- */
+
 @Service
 @Slf4j
 public class JwtFilter extends BasicHttpAuthenticationFilter {
-    @Autowired
     TokenCache tokenCache;
 
-    @Value("${refreshTokenExpireTime}")
     int refreshTokenExpireTime;
+
+    /**
+     * 设置超时时间
+     * @param refreshTokenExpireTime
+     */
+    public void setRefreshTokenExpireTime(int refreshTokenExpireTime) {
+        this.refreshTokenExpireTime = refreshTokenExpireTime;
+    }
+
+    /**
+     * 设置自定义cache
+     * @param tokenCache
+     */
+    public void setTokenCache(TokenCache tokenCache) {
+        this.tokenCache = tokenCache;
+    }
 
     /**
      * 这里我们详细说明下为什么最终返回的都是true，即允许访问
@@ -90,8 +98,8 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
             String requestURI = httpServletRequest.getRequestURI();
             log.info("当前请求 {} Authorization属性(Token)为空 请求类型 {}", requestURI, httpMethod);
             // mustLoginFlag = true 开启任何请求必须登录才可访问
-            Boolean mustLoginFlag = false;
-            if (mustLoginFlag) {
+            Boolean mustLoginFlag = true;
+            if (mustLoginFlag && !requestURI.equals("/user/login")) {
                 this.response401(response, "请先登录");
                 return false;
             }

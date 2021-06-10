@@ -10,6 +10,7 @@ import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSource
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,7 +27,10 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
     @Autowired
-    TokenCache redisCacheGenerator;
+    TokenCache tokenCache;
+
+    @Value("${refreshTokenExpireTime:1000}")
+    int refreshTokenExpireTime;
 
     /**
      * 交由 Spring 来自动地管理 Shiro-Bean 的生命周期
@@ -60,8 +64,9 @@ public class ShiroConfig {
      * 配置 SecurityManager
      */
     @Bean
-    public SecurityManager securityManager() {
+    public SecurityManager securityManager(UserRealm userRealm) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        securityManager.setRealm(userRealm);
         // 关闭shiro自带的session
         DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
         subjectDAO.setSessionStorageEvaluator(sessionStorageEvaluator());
@@ -88,11 +93,14 @@ public class ShiroConfig {
      * @date 2018/8/31 10:57
      */
     @Bean("shiroFilter")
-    public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager) {
+    public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
         // 添加自己的过滤器取名为jwt
         Map<String, Filter> filterMap = new HashMap<>(16);
-        filterMap.put("jwt", new JwtFilter());
+        JwtFilter jwtFilter = new JwtFilter();
+        jwtFilter.setTokenCache(tokenCache);
+        jwtFilter.setRefreshTokenExpireTime(refreshTokenExpireTime);
+        filterMap.put("jwt", jwtFilter);
         factoryBean.setFilters(filterMap);
         factoryBean.setSecurityManager(securityManager);
         // 自定义url规则使用LinkedHashMap有序Map
@@ -106,6 +114,7 @@ public class ShiroConfig {
         // 公开接口
         // filterChainDefinitionMap.put("/api/**", "anon");
         // 所有请求通过我们自己的JWTFilter
+        filterChainDefinitionMap.put("/user/login", "anon");
         filterChainDefinitionMap.put("/**", "jwt");
         factoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return factoryBean;

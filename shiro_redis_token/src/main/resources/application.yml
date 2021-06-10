@@ -1,10 +1,17 @@
 spring:
   redis:
-    host: localhost:6379
+    host: 192.168.126.128:6379
     password:
-    timeout: 60000
+    timeout: 600
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://host:post/db?useUnicode=true&characterEncoding=utf-8&serverTimeZone=GMT
-    username: user
-    password: password
+    url: jdbc:mysql://192.168.126.128:3306/rbac?useUnicode=true&characterEncoding=utf-8&serverTimeZone=GMT
+    username: root
+    password: admin
+
+
+refreshTokenExpireTime: 600
+accessTokenExpireTime: 600
+
+logging:
+  level.com.springboot.demo.shiro_redis_token.mapper: debug

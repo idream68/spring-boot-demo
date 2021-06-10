@@ -14,20 +14,15 @@ import javax.annotation.PostConstruct;
  **/
 @Service
 public class TokenCache {
-    @Value("spring.redis.host")
+    @Value("${spring.redis.host}")
     String host;
-    @Value("spring.redis.password")
+    @Value("${spring.redis.password}")
     String password;
-    @Value("spring.redis.timeout")
+    @Value("${spring.redis.timeout}")
     int timeout;
 
     private RedisManager redisManager;
 
-    /**
-     * 配置shiro redisManager
-     * 使用的是shiro-redis开源插件
-     * @return
-     */
     @PostConstruct
     public void redisManager() {
         RedisManager redisManager = new RedisManager();

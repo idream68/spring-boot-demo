@@ -2,11 +2,6 @@ package com.springboot.demo.shiro_redis_token.utils.common;
 
 import com.alibaba.fastjson.JSONObject;
 
-/**
- * Json和Object的互相转换，转List必须Json最外层加[]，转Object，Json最外层不要加[]
- * @author dolyw.com
- * @date 2018/8/9 15:37
- */
 public class JsonConvertUtil {
     /**
      * JSON 转 Object

@@ -15,11 +15,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.Security;
 
-/**
- * AES加密解密工具类
- * @author dolyw.com
- * @date 2018/8/31 16:39
- */
 @Component
 public class AesCipherUtil {
 
@@ -29,7 +24,7 @@ public class AesCipherUtil {
     private static String encryptAESKey;
     // private static final byte[] KEY = { 1, 1, 33, 82, -32, -85, -128, -65 };
 
-    @Value("${encryptAESKey}")
+    @Value("${encryptAESKey:test}")
     public void setEncryptAESKey(String encryptAESKey) {
         AesCipherUtil.encryptAESKey = encryptAESKey;
     }
@@ -39,13 +34,6 @@ public class AesCipherUtil {
      */
     private static final Logger logger = LoggerFactory.getLogger(AesCipherUtil.class);
 
-    /**
-     * 加密
-     * @param str
-     * @return java.lang.String
-     * @author dolyw.com
-     * @date 2018/8/31 16:56
-     */
     public static String enCrypto(String str) {
         try {
             Security.addProvider(new com.sun.crypto.provider.SunJCE());
@@ -82,13 +70,6 @@ public class AesCipherUtil {
         }
     }
 
-    /**
-     * 解密
-     * @param str
-     * @return java.lang.String
-     * @author dolyw.com
-     * @date 2018/8/31 16:56
-     */
     public static String deCrypto(String str) {
         try {
             Security.addProvider(new com.sun.crypto.provider.SunJCE());
