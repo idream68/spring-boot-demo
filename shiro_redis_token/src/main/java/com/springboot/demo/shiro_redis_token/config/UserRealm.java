@@ -41,7 +41,7 @@ public class UserRealm extends AuthorizingRealm {
     private TokenCache tokenCache;
 
     /**
-     * 大坑，必须重写此方法，不然Shiro会报错
+     * 过滤支持的token类型
      */
     @Override
     public boolean supports(AuthenticationToken authenticationToken) {

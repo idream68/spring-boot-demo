@@ -50,15 +50,19 @@
 - [shiro-jwt示例(不使用任何数据库)](./shiro_jwt)
 - [shiro-redis-session示例(redis保存session)](./shiro_redis)
 - [shiro-redis-token(使用redis保存token)](./shiro_redis_token)
-- shiro-在线会话管理
-- shiro-并发登录控制
-- shiro-失败次数过多锁定
+- [shiro-在线会话管理](./shiro_redis_token)
+- [shiro-并发登录控制(仅提供思路)](./shiro_redis_token)
+- [shiro-失败次数过多锁定(仅提供思路)](./shiro_redis_token)
 - shiro-Ehcache 
-- shiro-自定义加密方法 
+- [shiro-自定义加密方法](./shiro_custom_encryption)
 - ...
 
 ### SPRING BOOT & SECURITY
 - security 简单示例
+- ...
+
+### SPRING BOOT & ES
+- elastic search 简单示例
 - ...
 
 ## SPRING CLOUD
