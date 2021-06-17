@@ -45,6 +45,10 @@
 - [kafka 客户端使用示例](./kafkaclient)
 - ...
 
+### SPRING BOOT & ES
+- elastic search 简单示例
+- ...
+
 ### SPRING BOOT SHIRO
 - [shiro-session示例(不使用任何数据库)](./shiro_base)
 - [shiro-jwt示例(不使用任何数据库)](./shiro_jwt)
@@ -59,10 +63,6 @@
 
 ### SPRING BOOT & SECURITY
 - security 简单示例
-- ...
-
-### SPRING BOOT & ES
-- elastic search 简单示例
 - ...
 
 ## SPRING CLOUD
