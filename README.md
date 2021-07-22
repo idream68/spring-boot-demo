@@ -8,6 +8,7 @@
 - [验证使用@RestController的类也可以注入到其他类中](./controller_injection)
 - [Scheduled多线程示例](./scheduled_multi_thread)
 - [swagger示例](./swagger_demo)
+- [local_cache示例](./local_cache_demo)
 - ...
 
 ### SPRING BOOT MYSQL
