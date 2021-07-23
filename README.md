@@ -8,6 +8,8 @@
 - [验证使用@RestController的类也可以注入到其他类中](./controller_injection)
 - [Scheduled多线程示例](./scheduled_multi_thread)
 - [swagger示例](./swagger_demo)
+- [local_cache示例](./local_cache_demo)
+- [springboot 新注入方式示例](./springbootbeanparam)
 - ...
 
 ### SPRING BOOT MYSQL
@@ -45,6 +47,10 @@
 - [kafka 客户端使用示例](./kafkaclient)
 - ...
 
+### SPRING BOOT & ES
+- elastic search 简单示例
+- ...
+
 ### SPRING BOOT SHIRO
 - [shiro-session示例(不使用任何数据库)](./shiro_base)
 - [shiro-jwt示例(不使用任何数据库)](./shiro_jwt)
@@ -59,10 +65,6 @@
 
 ### SPRING BOOT & SECURITY
 - security 简单示例
-- ...
-
-### SPRING BOOT & ES
-- elastic search 简单示例
 - ...
 
 ## SPRING CLOUD
