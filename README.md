@@ -9,6 +9,7 @@
 - [Scheduled多线程示例](./scheduled_multi_thread)
 - [swagger示例](./swagger_demo)
 - [local_cache示例](./local_cache_demo)
+- [springboot 新注入方式示例](./springbootbeanparam)
 - ...
 
 ### SPRING BOOT MYSQL
